@@ -34,11 +34,28 @@ export const useTimerStore = create(
           timers: curr.timers.filter((t) => t.id !== id),
         }));
       },
-      toggleTimer: (id) => ({
-        timers: curr.timers.map((timer) => {
-          if (timer.id !== id) return timer;
-        }),
-      }),
+      toggleRunning: (id) => {
+        set((curr) => ({
+          timers: curr.timers.map((timer) => {
+            if (timer.id !== id) return timer;
+
+            if (timer.timeLeft === 0 && !timer.isRunning) {
+              return {
+                ...timer,
+                isRunning: true,
+                endAt: Date.now() + timer.duration,
+                timeLeft: timer.duration,
+              };
+            }
+
+            return {
+              ...timer,
+              isRunning: !timer.isRunning,
+              endAt: timer.isRunning ? Date.now() + timer.timeLeft : Date.now() + timer.timeLeft,
+            };
+          }),
+        }));
+      },
     }),
     {
       name: "timer-storage",
@@ -55,15 +72,17 @@ export const useTimerInterval = () => {
             return timer;
           }
           const onTimerFinish = () => {
+            const audio = new Audio("/ring.mp3");
+            audio.play();
             return {
               ...timer,
-              timeLeft:0,
-              isRunning: false
-            }
-          }
+              timeLeft: 0,
+              isRunning: false,
+            };
+          };
           const timeLeft = Math.round(timer.endAt - Date.now());
-          
-          if(timeLeft <= 0) {
+
+          if (timeLeft <= 0) {
             return onTimerFinish();
           }
           return {
@@ -72,7 +91,7 @@ export const useTimerInterval = () => {
           };
         }),
       }));
-    });
+    }, 1000);
     return () => {
       clearInterval(intervalId);
     };

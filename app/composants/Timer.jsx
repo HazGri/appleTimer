@@ -5,7 +5,6 @@ import { X, Pause, Play, RotateCcw,Bell } from "lucide-react";
 
 
 export const Timer = ({ timer }) => {
-  localStorage.clear();
   const endAt = new Date(timer.endAt);
   const timeText = getTimeText(timer.timeLeft);
   return (
