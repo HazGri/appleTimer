@@ -7,8 +7,8 @@ import { Timer } from "./composants/Timer";
 export default function Home() {
   useTimerInterval();
   return (
-    <main className="mx-auto min-h-full flex max-w-4xl flex-col gap-8 p-4 ">
-      <h1>Timer</h1>
+    <main className="mx-auto min-h-full items-center flex max-w-4xl flex-col gap-8 p-4 ">
+      <h1 className="font-bold text-center">Apple Timer</h1>
       <AddTimerForm />
       <Timers />
     </main>

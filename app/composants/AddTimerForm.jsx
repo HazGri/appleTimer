@@ -52,16 +52,14 @@ export const AddTimerForm = () => {
           name="secs"
         />
       </div>
-        <div className="flex items-end">
           <button
-            className="btn-success btn"
+            className="btn-success btn self-center"
             onClick={() => {
               handleAddTImer();
             }}
           >
             Add Timer
           </button>
-        </div>
     </div>
   );
 };
